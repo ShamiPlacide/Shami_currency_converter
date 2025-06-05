@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Currency Converter</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e1e2f, #2c3e50);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+        .heading {
+            text-align: center;
+            color: lavender;
+            margin: 50px;
+            font-family: "Arial", sans-serif;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .conv {
+            color: lavender;
+            display: flex;
+            flex-direction: column;
+            width: 400px;
+            gap: 20px;
+        }
+        .currency-from, .currency-to, .amount {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            gap: 10px;
+        }
+        .currency-from h3,
+        .currency-to h3,
+        .amount h3 {
+            width: 100px;
+            margin: 0;
+            font-size: 18px;
+        }
+        input {
+            flex: 1;
+            padding: 5px 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .button {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            border: solid 2px forestgreen;
+            background-color: transparent;
+            color: lavender;
+            height: 40px;
+            width: 120px;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: "Times New Roman", serif;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        button:hover {
+            filter: brightness(70%);
+        }
+        button:active {
+            background-color: #1c639c;
+            transform: scale(0.98);
+        }
+        #result {
+            margin-top: 30px;
+            margin-bottom: 60px;
+            color: #ffebcd; /* antiquewhite */
+            font-size: 20px;
+            font-family: "Times New Roman", serif;
+            min-height: 1.2em;
+            text-align: center;
+        }
+        .error {
+            color: #ff6b6b; /* light red */
+            font-size: 14px;
+            margin-top: 5px;
+            text-align: center;
+        }
+        footer {
+            text-align: center;
+            font-family: "Times New Roman", serif;
+            margin-bottom: 20px;
+            color: lavenderblush;
+        }
+    </style>
+</head>
+<body>
+    <div class="heading">
+        <h1>CURRENCY CONVERTER</h1>
+        <h2>Welcome to this currency converter</h2>
+    </div>
+    <div class="container">
+        <div class="conv">
+            <div class="currency-from">
+                <h3>From:</h3>
+                <input type="text" id="currency-from" placeholder="e.g. USD">
+            </div>
+            <div class="currency-to">
+                <h3>To:</h3>
+                <input type="text" id="currency-to" placeholder="e.g. EUR">
+            </div>
+            <div class="amount">
+                <h3>Amount:</h3>
+                <input type="number" id="amount" placeholder="e.g. 100" min="0" step="any">
+            </div>
+            <div id="error-message" class="error"></div>
+        </div>
+        <div class="button">
+            <button id="convert-btn">Convert</button>
+        </div>
+        <div id="result"></div>
+    </div>
+    <footer>©2025 Mentrum all rights reserved</footer>
+
+    <script>
+    document.getElementById("convert-btn").addEventListener("click", () => {
+        const currencies = {
+            USD: 1.0,
+            JPY: 113.5,
+            EUR: 0.89,
+            RUB: 74.36,
+            GBP: 0.75,
+            RWF: 9.86,
+            NRA: 1200,
+            SHL: 2900,
+        };
+
+        const from = document.getElementById("currency-from").value.trim().toUpperCase();
+        const to = document.getElementById("currency-to").value.trim().toUpperCase();
+        const amount = parseFloat(document.getElementById("amount").value);
+        const resultDiv = document.getElementById("result");
+        const errorDiv = document.getElementById("error-message");
+
+        errorDiv.textContent = "";
+        resultDiv.textContent = "";
+
+        if (!currencies[from]) {
+            errorDiv.textContent = `Currency "${from}" not found!`;
+            return;
+        }
+        if (!currencies[to]) {
+            errorDiv.textContent = `Currency "${to}" not found!`;
+            return;
+        }
+        if (isNaN(amount) || amount <= 0) {
+            errorDiv.textContent = "Enter a valid amount.";
+            return;
+        }
+
+        const converted = (amount / currencies[from]) * currencies[to];
+        const rounded = converted.toFixed(2);
+
+        resultDiv.textContent = `${amount} ${from} = ${rounded} ${to}`;
+        });
+    </script>
+</body>
+</html>
+
